@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   db:
     image: postgres:15
@@ -12,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  web:
+  backend:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -21,6 +19,11 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - DJANGO_SETTINGS_MODULE=backend.settings
 
 volumes:
   postgres_data:

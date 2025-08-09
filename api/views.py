@@ -1,7 +1,6 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.utils.timezone import now
 from .models import Restaurant, Menu, Employee, Vote
 from .serializers import (
     RestaurantSerializer, MenuSerializer,
@@ -11,12 +10,14 @@ from .services import get_today_menu, get_today_results
 
 
 class RestaurantViewSet(viewsets.ModelViewSet):
+    """API endpoint for CRUD operations on restaurants."""
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class MenuViewSet(viewsets.ModelViewSet):
+    """API endpoint for CRUD operations on menus."""
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -34,15 +35,17 @@ class MenuViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
+    """API endpoint for CRUD operations on employees."""
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
-    
+
 
 class VoteViewSet(viewsets.ModelViewSet):
+    """API endpoint for creating and listing employee votes."""
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
     permission_classes = [permissions.IsAuthenticated]
